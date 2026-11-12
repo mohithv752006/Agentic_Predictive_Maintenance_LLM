@@ -1,0 +1,37 @@
+# Action set and cost table.
+#
+# Costs are expressed in units of one planned (proactive) drive replacement = 1.0.
+# A missed failure costs `cost_ratio` units (swept in experiments; Backblaze
+# publishes no official cost matrix).
+#
+# Expected cost of an action given calibrated failure probabilities p[h]:
+#   E[a] = fixed_cost + exposure_fraction * p[exposure_horizon] * cost_ratio
+# For actions with `delegates: true` (human escalation):
+#   E[a] = fixed_cost + min(E[b] for every non-delegating action b)
+# i.e. a human reviews the case and then takes the best available action.
+# Escalation is never chosen on cost alone; policy rules (uncertainty,
+# disagreement, drift alert) trigger it. See decision/policy.py.
+
+actions:
+  monitor:
+    description: Keep the drive in service and keep watching it.
+    fixed_cost: 0.0
+    exposure_horizon: 30
+    exposure_fraction: 1.0
+
+  schedule_replacement:
+    description: Replace the drive in the next maintenance window (about a week).
+    fixed_cost: 1.0
+    exposure_horizon: 7
+    exposure_fraction: 1.0
+
+  replace_now:
+    description: Replace the drive immediately (planned replacement + urgency premium).
+    fixed_cost: 1.5
+    exposure_horizon: null
+    exposure_fraction: 0.0
+
+  escalate_to_human:
+    description: Send the case to an operator for review.
+    fixed_cost: 0.25
+    delegates: true

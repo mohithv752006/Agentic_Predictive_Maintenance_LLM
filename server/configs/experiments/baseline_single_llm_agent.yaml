@@ -1,0 +1,8 @@
+# Baseline: single_llm_agent vs the full system.
+experiment:
+  name: baseline_single_llm_agent
+  systems: [single_llm_agent, full_system]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: true
+overrides: {}

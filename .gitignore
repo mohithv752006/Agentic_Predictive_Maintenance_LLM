@@ -1,0 +1,28 @@
+# Secrets
+.env
+*.env.local
+
+# Data and generated outputs (anchored: the pdm_agents/data package is source code)
+/server/data/
+/server/outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+client/dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+~$*

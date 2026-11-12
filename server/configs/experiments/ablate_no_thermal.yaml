@@ -1,0 +1,8 @@
+# Ablation: no_thermal (one component removed from the full system).
+experiment:
+  name: ablate_no_thermal
+  systems: [full_system, no_thermal]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}

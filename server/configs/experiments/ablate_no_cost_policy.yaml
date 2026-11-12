@@ -1,0 +1,8 @@
+# Ablation: no_cost_policy (one component removed from the full system).
+experiment:
+  name: ablate_no_cost_policy
+  systems: [full_system, no_cost_policy]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}

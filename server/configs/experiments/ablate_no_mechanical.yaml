@@ -1,0 +1,8 @@
+# Ablation: no_mechanical (one component removed from the full system).
+experiment:
+  name: ablate_no_mechanical
+  systems: [full_system, no_mechanical]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}

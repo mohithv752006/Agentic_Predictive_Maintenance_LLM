@@ -1,0 +1,8 @@
+# Ablation: no_usage_wear (one component removed from the full system).
+experiment:
+  name: ablate_no_usage_wear
+  systems: [full_system, no_usage_wear]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}

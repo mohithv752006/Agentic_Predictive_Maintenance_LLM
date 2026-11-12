@@ -1,0 +1,9 @@
+# Cost-ratio sweep (no official Backblaze cost matrix): wider grid than the default.
+experiment:
+  name: cost_sweep
+  systems: [lgbm_global, multi_agent_no_rag, full_system, majority_vote, no_cost_policy]
+  sets: [test]
+  run_llm_sample: false
+overrides:
+  decision:
+    cost_ratios: [5, 10, 20, 50, 100, 200, 500]

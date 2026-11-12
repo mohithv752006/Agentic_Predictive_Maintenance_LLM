@@ -1,0 +1,12 @@
+# Every baseline and ablation on the full test and unseen sets, with per-window predictions
+# (seed 0) saved for the results notebook. Numeric only: the LLM ablation is ablation_llm.yaml.
+experiment:
+  name: final_results
+  systems: [lgbm_global, sequence, single_llm_agent, multi_agent_no_rag, full_system,
+            no_media_health, no_mechanical, no_thermal, no_usage_wear,
+            no_case_retrieval, no_knowledge_retrieval, no_calibration, majority_vote,
+            no_cost_policy, no_drift_recalibration]
+  sets: [test, unseen]
+  run_llm_sample: false
+  export_predictions: true
+overrides: {}

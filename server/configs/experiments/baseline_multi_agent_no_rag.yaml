@@ -1,0 +1,8 @@
+# Baseline: multi_agent_no_rag vs the full system.
+experiment:
+  name: baseline_multi_agent_no_rag
+  systems: [multi_agent_no_rag, full_system]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: true
+overrides: {}

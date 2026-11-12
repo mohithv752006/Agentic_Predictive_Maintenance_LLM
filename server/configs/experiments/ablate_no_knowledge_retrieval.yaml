@@ -1,0 +1,8 @@
+# Ablation: no_knowledge_retrieval (one component removed from the full system).
+experiment:
+  name: ablate_no_knowledge_retrieval
+  systems: [full_system, no_knowledge_retrieval]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: true
+overrides: {}

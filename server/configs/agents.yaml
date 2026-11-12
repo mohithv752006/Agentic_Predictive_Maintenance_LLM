@@ -1,0 +1,62 @@
+# Specialist agents. Adding an agent = one new module subclassing SpecialistAgent
+# + one entry here. `class` is "module:ClassName", resolved with importlib.
+#
+# kind:
+#   numeric    - owns a SMART attribute family; a calibrated per-family model is
+#                trained for it and its risk feeds fusion.
+#   context    - contributes context/risk without its own SMART family model.
+#   retrieval  - RAG agent (skipped when features.use_rag is false).
+#
+# attributes are harmonized Parquet column names (smart_<id>_<raw|normalized>).
+# Presence is verified per drive model at training time; absent columns are dropped
+# for that model and reported.
+
+agents:
+  media_health:
+    class: pdm_agents.agents.media_health:MediaHealthAgent
+    enabled: true
+    kind: numeric
+    description: Sector reallocation, pending and uncorrectable sector growth.
+    attributes: [smart_5_raw, smart_187_raw, smart_197_raw, smart_198_raw, smart_184_raw]
+
+  mechanical:
+    class: pdm_agents.agents.mechanical:MechanicalAgent
+    enabled: true
+    kind: numeric
+    description: Seek errors, spin retries, command timeouts and head flying hours.
+    attributes: [smart_7_normalized, smart_10_raw, smart_188_raw, smart_240_raw]
+
+  thermal:
+    class: pdm_agents.agents.thermal:ThermalAgent
+    enabled: true
+    kind: numeric
+    description: Sustained heat and temperature spikes.
+    attributes: [smart_190_raw, smart_194_raw]
+
+  usage_wear:
+    class: pdm_agents.agents.usage_wear:UsageWearAgent
+    enabled: true
+    kind: numeric
+    description: Age, power cycles, load cycles and workload volume.
+    attributes: [smart_9_raw, smart_12_raw, smart_193_raw, smart_241_raw, smart_242_raw]
+
+  fleet_context:
+    class: pdm_agents.agents.fleet_context:FleetContextAgent
+    enabled: true
+    kind: context
+    description: Drive model, capacity and per-model base failure rates.
+    attributes: []
+
+  case_retrieval:
+    class: pdm_agents.agents.case_retrieval:CaseRetrievalAgent
+    enabled: true
+    kind: retrieval
+    description: Most similar training drives (same model) and their outcomes.
+    attributes: []
+
+  knowledge_retrieval:
+    class: pdm_agents.agents.knowledge_retrieval:KnowledgeRetrievalAgent
+    enabled: true
+    kind: retrieval
+    description: SMART attribute semantics and vendor caveats for grounded explanations.
+    attributes: []

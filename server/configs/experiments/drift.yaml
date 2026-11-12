@@ -1,0 +1,7 @@
+# H4: drift-aware recalibration on the later period and the unseen drive model.
+experiment:
+  name: drift
+  systems: [full_system, no_drift_recalibration, lgbm_global]
+  sets: [test, unseen]
+  run_llm_sample: false
+overrides: {}

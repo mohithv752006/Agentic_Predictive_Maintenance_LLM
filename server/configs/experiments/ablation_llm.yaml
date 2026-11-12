@@ -1,0 +1,19 @@
+# Ablation of the LLM-side components through the real LangGraph pipeline with the live
+# Colab LLM: planner, knowledge retrieval, all retrieval, and one agent instead of seven.
+# Probabilities of these systems come from the trained models; this run measures what the
+# LLM parts change (citations, grounded numbers, latency, LLM calls, re-plans).
+# Needs LLM_BASE_URL / LLM_API_KEY in server/.env; fails instead of running offline.
+experiment:
+  name: ablation_llm
+  systems: [full_system, no_planner, no_knowledge_retrieval, multi_agent_no_rag,
+            single_llm_agent]
+  sets: [test]
+  bootstrap: false
+  llm_mode: live
+  run_llm_sample: true
+  require_live: true
+overrides:
+  seeds: [0]  # numeric metrics come from final_results.yaml; this run is for the graph runs
+  evaluation:
+    llm_sample_size: 100
+    llm_sample_max_positives: 30

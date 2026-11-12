@@ -1,0 +1,8 @@
+# Baseline: sequence vs the full system.
+experiment:
+  name: baseline_sequence
+  systems: [sequence, full_system]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}

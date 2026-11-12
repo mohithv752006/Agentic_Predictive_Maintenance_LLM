@@ -1,0 +1,8 @@
+# Ablation: no_media_health (one component removed from the full system).
+experiment:
+  name: ablate_no_media_health
+  systems: [full_system, no_media_health]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}

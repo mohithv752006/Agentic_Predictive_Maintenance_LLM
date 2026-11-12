@@ -1,0 +1,13 @@
+# Every baseline and ablation in one run (spec section 11). LLM-dependent systems are
+# also run through the graph on the stratified sample (evaluation.llm_sample_size).
+experiment:
+  name: full
+  systems: [lgbm_global, sequence, single_llm_agent, multi_agent_no_rag, full_system,
+            no_media_health, no_mechanical, no_thermal, no_usage_wear,
+            no_case_retrieval, no_knowledge_retrieval, no_calibration, majority_vote,
+            no_cost_policy, no_drift_recalibration]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: true
+  llm_systems: [single_llm_agent, multi_agent_no_rag, full_system, no_knowledge_retrieval]
+overrides: {}

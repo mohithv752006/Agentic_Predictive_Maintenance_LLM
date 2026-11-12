@@ -1,0 +1,8 @@
+# Baseline: lgbm_global vs the full system.
+experiment:
+  name: baseline_lgbm_global
+  systems: [lgbm_global, full_system]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}

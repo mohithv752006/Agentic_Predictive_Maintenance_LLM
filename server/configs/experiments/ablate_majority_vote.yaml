@@ -1,0 +1,8 @@
+# Ablation: majority_vote (one component removed from the full system).
+experiment:
+  name: ablate_majority_vote
+  systems: [full_system, majority_vote]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}

@@ -1,0 +1,8 @@
+# Ablation: no_case_retrieval (one component removed from the full system).
+experiment:
+  name: ablate_no_case_retrieval
+  systems: [full_system, no_case_retrieval]
+  sets: [test, unseen]
+  llm_mode: live
+  run_llm_sample: false
+overrides: {}
