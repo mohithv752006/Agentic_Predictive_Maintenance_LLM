@@ -1,1 +1,1 @@
-{"status":"degraded","version":"0.1.0","env":"local","data_ready":true,"models_ready":true,"indexes_ready":true,"llm":{"configured":true,"reachable":true,"base_url":"","model_id":null,"latency_ms":null,"error":null,"guided_json":false}}
+{"status":"ok","version":"0.1.0","env":"local","data_ready":true,"models_ready":true,"indexes_ready":true,"llm":{"configured":true,"reachable":true,"base_url":"","model_id":"Qwen/Qwen3.5-4B","latency_ms":901.4,"error":null,"guided_json":false}}
