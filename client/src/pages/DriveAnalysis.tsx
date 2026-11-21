@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { api } from "../api/client";
+import { DEMO, demoAnalyses } from "../api/demo";
 import { streamPrediction } from "../api/sse";
 import { AgentTimeline, timelineRows } from "../components/AgentTimeline";
 import { StatusBadge } from "../components/Badges";
@@ -71,6 +72,14 @@ function DriveView({ serial }: { serial: string }) {
     setAsOf(h.failure_date && h.dates.length > 1 ? h.dates[h.dates.length - 2] : last);
   }, [history.data, asOf]);
   useEffect(() => () => closeRef.current?.(), []);
+  // public demo: inputs are fixed to the recorded run of this drive
+  const recorded = useQuery({ queryKey: ["demo-analyses"], queryFn: demoAnalyses, enabled: DEMO });
+  const rec = recorded.data?.[serial]?.[0];
+  useEffect(() => {
+    if (!rec) return;
+    setAsOf(rec.as_of);
+    setCostRatio(rec.cost_ratio);
+  }, [rec]);
 
   const run = () => {
     closeRef.current?.();
@@ -140,7 +149,8 @@ function DriveView({ serial }: { serial: string }) {
               min={h?.dates[0]}
               max={h?.dates[h.dates.length - 1]}
               onChange={(e) => setAsOf(e.target.value)}
-              className="mt-1 rounded-md border border-slate-300 px-2 py-1.5"
+              disabled={DEMO}
+              className="mt-1 rounded-md border border-slate-300 px-2 py-1.5 disabled:bg-slate-100"
             />
           </label>
           <label className="min-w-64 flex-1 text-sm">
@@ -154,28 +164,38 @@ function DriveView({ serial }: { serial: string }) {
               step={1}
               value={costRatio}
               onChange={(e) => setCostRatio(Number(e.target.value))}
+              disabled={DEMO}
               className="mt-2 w-full"
             />
             <div className="flex justify-between text-[10px] text-slate-400">
               {(settings.data?.cost_ratios ?? [10, 50, 200]).map((c) => (
-                <button key={c} type="button" onClick={() => setCostRatio(c)} className="hover:text-slate-700">
+                <button key={c} type="button" disabled={DEMO} onClick={() => setCostRatio(c)} className="hover:text-slate-700">
                   {c}
                 </button>
               ))}
             </div>
           </label>
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={offline} onChange={(e) => setOffline(e.target.checked)} />
+            <input type="checkbox" checked={offline} disabled={DEMO} onChange={(e) => setOffline(e.target.checked)} />
             Offline (no LLM)
           </label>
           <button
             onClick={run}
-            disabled={running || !h}
+            disabled={running || !h || (DEMO && !rec)}
             className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
           >
             {running ? "Running…" : "Run analysis"}
           </button>
         </div>
+        {DEMO && (
+          <p className="mt-3 text-xs text-sky-800">
+            {rec
+              ? `Demo: replays the analysis recorded for ${rec.as_of} at cost ratio ${rec.cost_ratio} with the live Qwen3.5-4B LLM (about 12 s instead of about 80 s).`
+              : recorded.isSuccess
+                ? "Demo: this drive has no recorded analysis; pick one from the fleet overview."
+                : null}
+          </p>
+        )}
         {error && <div className="mt-3"><ErrorNote error={error} /></div>}
       </Card>
 

@@ -1,5 +1,6 @@
 import type { PredictResponse, StreamUpdate } from "../types";
 import { API_BASE } from "./client";
+import { DEMO, replayPrediction } from "./demo";
 
 export interface StreamParams {
   serial_number: string;
@@ -18,6 +19,7 @@ export interface StreamHandlers {
 
 /** Open the /predict/stream SSE connection; returns a function that closes it. */
 export function streamPrediction(params: StreamParams, handlers: StreamHandlers): () => void {
+  if (DEMO) return replayPrediction(params, handlers);
   const q = new URLSearchParams({ serial_number: params.serial_number });
   if (params.as_of_date) q.set("as_of_date", params.as_of_date);
   if (params.cost_ratio !== undefined) q.set("cost_ratio", String(params.cost_ratio));

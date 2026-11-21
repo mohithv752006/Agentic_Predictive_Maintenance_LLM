@@ -14,8 +14,10 @@ import type {
   RuntimeSettingsUpdate,
   RuntimeSettingsView,
 } from "../types";
+import { DEMO, DEMO_BASE, DemoError, demoRequest } from "./demo";
 
-export const API_BASE: string = (
+// In the public demo, report plots and other relative URLs resolve to the recorded files.
+export const API_BASE: string = DEMO ? DEMO_BASE : (
   import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000"
 ).replace(/\/$/, "");
 
@@ -26,6 +28,13 @@ export class ApiError extends Error {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  if (DEMO) {
+    try {
+      return await demoRequest<T>(path, init);
+    } catch (e) {
+      throw e instanceof DemoError ? new ApiError(e.status, e.message) : e;
+    }
+  }
   const res = await fetch(`${API_BASE}${path}`, {
     ...init,
     headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },

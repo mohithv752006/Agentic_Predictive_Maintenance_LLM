@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { NavLink, Outlet } from "react-router";
 import { api } from "../api/client";
+import { DEMO } from "../api/demo";
 import { PAGES } from "../routes";
 import { OfflineBanner } from "./OfflineBanner";
 
@@ -31,10 +32,17 @@ export function Layout() {
           ))}
         </nav>
         <div className="mt-6 px-5 text-xs text-slate-500">
-          <div className="flex items-center gap-2">
-            <span className={`h-2 w-2 rounded-full ${llmOk ? "bg-emerald-500" : "bg-amber-500"}`} />
-            LLM {llmOk ? "online" : "offline"}
-          </div>
+          {DEMO ? (
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-sky-500" />
+              Demo · recorded runs
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <span className={`h-2 w-2 rounded-full ${llmOk ? "bg-emerald-500" : "bg-amber-500"}`} />
+              LLM {llmOk ? "online" : "offline"}
+            </div>
+          )}
           {health.data?.llm.model_id && <div className="mt-1 truncate">{health.data.llm.model_id}</div>}
         </div>
       </aside>
